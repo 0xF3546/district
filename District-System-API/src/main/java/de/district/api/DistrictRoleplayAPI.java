@@ -2,6 +2,7 @@ package de.district.api;
 
 import de.district.api.collectors.SystemCollector;
 import de.district.api.command.PluginCommandExecutor;
+import de.district.api.command.PluginTabCompleter;
 import de.district.api.entity.Console;
 import de.district.api.entity.PluginOfflinePlayer;
 import de.district.api.entity.PluginPlayer;
@@ -197,5 +198,12 @@ public final class DistrictRoleplayAPI {
             throw new IllegalStateException("Server has not been initialized");
         }
         server.registerPluginCommand(plugin, name, executor);
+    }
+
+    public static void registerPluginTabCompleter(@NotNull final JavaPlugin plugin, @NotNull final String name, @NotNull final PluginTabCompleter tabCompleter) {
+        if (server == null) {
+            throw new IllegalStateException("Server has not been initialized");
+        }
+        server.registerPluginTabCompleter(plugin, name, tabCompleter);
     }
 }
