@@ -5,7 +5,9 @@ import de.district.api.MinecraftVersion;
 import de.district.api.Server;
 import de.district.api.collectors.SystemCollector;
 import de.district.api.command.PluginCommandExecutor;
+import de.district.api.command.PluginTabCompleter;
 import de.district.api.command.wrapper.PluginCommandExecutorWrapper;
+import de.district.api.command.wrapper.PluginTabCompleterWrapper;
 import de.district.api.entity.Console;
 import de.district.api.entity.PluginOfflinePlayer;
 import de.district.api.entity.PluginPlayer;
@@ -346,5 +348,22 @@ public class DistrictRoleplay extends SpringlifyBukkitPlugin implements Server {
         }
 
         pluginCommand.setExecutor(new PluginCommandExecutorWrapper(executor));
+    }
+
+    /**
+     * Registers a plugin tab completer with the specified name and tab completer.
+     *
+     * @param plugin the {@link JavaPlugin} instance that owns the tab completer.
+     * @param name the name of the tab completer to register.
+     * @param tabCompleter the {@link PluginTabCompleter} that handles the tab completion.
+     */
+    @Override
+    public void registerPluginTabCompleter(@NotNull JavaPlugin plugin, @NotNull String name, @NotNull PluginTabCompleter tabCompleter) {
+        PluginCommand pluginCommand = plugin.getCommand(name);
+        if (pluginCommand == null) {
+            throw new DistrictRoleplayException(String.format("Failed to register tab completer '%s' for plugin '%s'", name, plugin.getName()));
+        }
+
+        pluginCommand.setTabCompleter(new PluginTabCompleterWrapper(tabCompleter));
     }
 }
