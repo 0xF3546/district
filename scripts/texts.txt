@@ -1,0 +1,1 @@
+py structure.py "E:/Development/Splatgames.de Development/splatgames.software/district/" tree --filter *.* --no-color --exclude target build .git
