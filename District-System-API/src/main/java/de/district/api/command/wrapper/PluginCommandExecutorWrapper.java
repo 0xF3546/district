@@ -1,6 +1,6 @@
 package de.district.api.command.wrapper;
 
-import de.district.api.DistrictRoleplayAPI;
+import de.district.api.DistrictAPI;
 import de.district.api.command.PluginCommandExecutor;
 import de.district.api.entity.Console;
 import de.district.api.entity.PluginPlayer;
@@ -22,13 +22,13 @@ public class PluginCommandExecutorWrapper implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull final CommandSender sender, @NotNull final Command command, @NotNull final String label, final @NotNull String[] args) {
         if (sender instanceof Player) {
-            PluginPlayer pluginPlayer = DistrictRoleplayAPI.getPluginPlayer((Player) sender);
+            PluginPlayer pluginPlayer = DistrictAPI.getPluginPlayer((Player) sender);
             if (pluginPlayer == null) {
                 throw new DistrictRoleplayException("An unexpected error occurred while trying to get the PluginPlayer instance.");
             }
             return pluginCommandExecutor.onCommand(pluginPlayer, command, label, args);
         } else {
-            Console console = DistrictRoleplayAPI.getConsole();
+            Console console = DistrictAPI.getConsole();
             return pluginCommandExecutor.onCommand(console, command, label, args);
         }
     }
