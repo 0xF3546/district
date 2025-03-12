@@ -16,7 +16,7 @@ import java.io.File;
 import java.util.logging.Logger;
 
 /**
- * The {@code DistrictRoleplayAPI} class provides a static entry point for accessing core
+ * The {@code DistrictAPI} class provides a static entry point for accessing core
  * services and components of the District-Roleplay plugin. This class serves as a utility
  * for interacting with the plugin's core features without directly depending on specific
  * implementation details.
@@ -25,28 +25,28 @@ import java.util.logging.Logger;
  * the {@link Server} implementation is set during the plugin's lifecycle. Once the server
  * instance is set, it cannot be changed, preventing unintended re-initialization.</p>
  *
- * <p>The {@code DistrictRoleplayAPI} class cannot be instantiated and should be accessed
+ * <p>The {@code DistrictAPI} class cannot be instantiated and should be accessed
  * statically.</p>
  *
  * @author Erik Pförtner
  * @see Server
  * @since 1.0.0
  */
-public final class DistrictRoleplayAPI {
+public final class DistrictAPI {
     private static Server server;
 
     /**
-     * Private constructor to prevent instantiation of the {@code DistrictRoleplayAPI} class.
+     * Private constructor to prevent instantiation of the {@code DistrictAPI} class.
      *
      * <p>This constructor throws an {@link UnsupportedOperationException} to enforce
      * that the class cannot be instantiated.</p>
      */
-    private DistrictRoleplayAPI() {
+    private DistrictAPI() {
         throw new UnsupportedOperationException("API cannot be instantiated");
     }
 
     /**
-     * Sets the {@link Server} instance that will be used by the {@code DistrictRoleplayAPI}
+     * Sets the {@link Server} instance that will be used by the {@code DistrictAPI}
      * to access core services and components.
      *
      * <p>This method can only be called once during the plugin's lifecycle. Attempting
@@ -56,11 +56,11 @@ public final class DistrictRoleplayAPI {
      * @throws IllegalStateException if the server instance has already been set.
      */
     public static void setServer(@NotNull final Server server) {
-        if (DistrictRoleplayAPI.server != null) {
+        if (DistrictAPI.server != null) {
             throw new IllegalStateException("Cannot instantiate singleton twice");
         }
 
-        DistrictRoleplayAPI.server = server;
+        DistrictAPI.server = server;
     }
 
     public static void flushServer() {
