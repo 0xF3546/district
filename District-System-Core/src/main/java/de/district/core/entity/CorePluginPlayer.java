@@ -28,6 +28,7 @@ import java.util.Optional;
  */
 public class CorePluginPlayer extends CorePluginOfflinePlayer implements PluginPlayer {
     private final Player player;
+    private boolean aduty = false;
 
     /**
      * Constructs a new {@code CorePluginPlayer} instance for the specified {@link Player}.
@@ -105,6 +106,16 @@ public class CorePluginPlayer extends CorePluginOfflinePlayer implements PluginP
         } else {
             this.player.sendMessage(message);
         }
+    }
+
+    @Override
+    public boolean isAduty() {
+        return aduty;
+    }
+
+    @Override
+    public void setAduty(final boolean state) {
+        this.aduty = state;
     }
 
     /**
