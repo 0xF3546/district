@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
  * @since 1.0.0
  * @author Erik Pförtner
  */
-public interface PluginOfflinePlayer extends Accountable {
+public interface PluginOfflinePlayer extends Human {
 
     /**
      * Retrieves the {@link OfflinePlayer} instance associated with this {@code PluginOfflinePlayer}.
