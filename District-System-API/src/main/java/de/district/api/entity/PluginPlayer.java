@@ -24,6 +24,14 @@ import org.jetbrains.annotations.NotNull;
 public interface PluginPlayer extends PluginOfflinePlayer, LocationSearchable, PluginCommandSender {
 
     /**
+     * Retrieves the name of the player.
+     *
+     * @return the name of the player, never {@code null}.
+     */
+    @NotNull
+    String getName();
+
+    /**
      * Retrieves the {@link Player} instance associated with this {@code PluginPlayer}.
      * This allows access to the player's data and status within the Bukkit server environment while they are online.
      *
