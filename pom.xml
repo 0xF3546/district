@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>de.district</groupId>
+    <artifactId>district-systems</artifactId>
+    <version>1.0.0</version>
+    <name>District-Systems</name>
+    <description>District Roleplay Systems</description>
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
+    <contributors>
+        <contributor>
+            <name>Erik Pförtner</name>
+            <email>splatcrafter@splatgames.de</email>
+            <organization>splatgames.software | splatgames.minecraft</organization>
+            <organizationUrl>https://software.splatgames.de/</organizationUrl>
+            <roles>
+                <role>Project-Manager</role>
+                <role>Lead-Developer</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>0xF3546</name>
+            <email>hampelmann361@gmail.com</email>
+            <organization>splatgames.software</organization>
+            <organizationUrl>https://software.splatgames.de/</organizationUrl>
+            <roles>
+                <role>Project-Manager</role>
+                <role>Developer</role>
+            </roles>
+        </contributor>
+        <contributor>
+            <name>EinsTify</name>
+            <email>einstify@gmail.com</email>
+            <organization>splatgames.software</organization>
+            <organizationUrl>https://software.splatgames.de/</organizationUrl>
+            <roles>
+                <role>Developer</role>
+            </roles>
+        </contributor>
+    </contributors>
+
+    <repositories>
+        <repository>
+            <id>splatgames.de-mixed</id>
+            <url>https://nexus.splatgames.de/repository/maven-mixed/</url>
+        </repository>
+        <repository>
+            <id>splatgames.de</id>
+            <url>https://libraries.splatgames.de/</url>
+        </repository>
+        <repository>
+            <id>papermc-repo</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+    </repositories>
+
+    <build>
+        <defaultGoal>clean package</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+</project>

@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.district</groupId>
+    <artifactId>district-core</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>District-System-Core</name>
+
+    <properties>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <paper.version>1.20.4-R0.1-SNAPSHOT</paper.version>
+        <springlify.version>1.0.0</springlify.version>
+        <splatgames.generators.version>17</splatgames.generators.version>
+        <splatgames.datatypes.version>1.0.0</splatgames.datatypes.version>
+        <splatgames.validations.version>1.1.0</splatgames.validations.version>
+        <splatgames.aether.version>1.0.0</splatgames.aether.version>
+        <spring.version>3.3.0</spring.version>
+        <mariadb.version>3.3.0</mariadb.version>
+        <h2.version>2.1.214</h2.version>
+        <spring.security.test.version>6.3.1</spring.security.test.version>
+        <test.junit.version>5.11.0</test.junit.version>
+        <test.assertj.version>3.26.3</test.assertj.version>
+        <test.mockito.version>5.12.0</test.mockito.version>
+    </properties>
+
+    <build>
+        <defaultGoal>clean package</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Annotation Processor for the DTO Generator -->
+            <plugin>
+                <groupId>org.bsc.maven</groupId>
+                <artifactId>maven-processor-plugin</artifactId>
+                <version>5.1</version>
+                <executions>
+                    <execution>
+                        <id>process</id>
+                        <goals>
+                            <goal>process</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <processors>
+                                <processor>de.splatgames.generators.generator.AnnotationProcessor</processor>
+                            </processors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>enforce-lib-ban</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <bannedDependencies>
+                                </bannedDependencies>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>splatgames.de-mixed</id>
+            <url>https://nexus.splatgames.de/repository/maven-mixed/</url>
+        </repository>
+        <repository>
+            <id>splatgames.de</id>
+            <url>https://libraries.splatgames.de/</url>
+        </repository>
+        <repository>
+            <id>papermc-repo</id>
+            <url>https://repo.papermc.io/repository/maven-public/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- Paper-API -->
+        <dependency>
+            <groupId>io.papermc.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>${paper.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Splatgames.de Springlify -->
+        <dependency>
+            <groupId>de.splatgames.springlify</groupId>
+            <artifactId>springlify-starter-bukkit</artifactId>
+            <version>${springlify.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.splatgames.springlify</groupId>
+            <artifactId>springlify-platform-bukkit</artifactId>
+            <version>${springlify.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.splatgames.springlify</groupId>
+            <artifactId>springlify-commander-bukkit</artifactId>
+            <version>${springlify.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- Splatgames.de Libraries -->
+        <dependency>
+            <groupId>de.splatgames</groupId>
+            <artifactId>commons-datatypes</artifactId>
+            <version>${splatgames.datatypes.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- Don't compile the generators-core, because it's only necessary for the annotation processor -->
+        <dependency>
+            <groupId>de.splatgames</groupId>
+            <artifactId>generators-core</artifactId>
+            <version>${splatgames.generators.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- Compile the annotations to avoid runtime errors because the @Dto annotation isn't available -->
+        <dependency>
+            <groupId>de.splatgames</groupId>
+            <artifactId>generators-annotations</artifactId>
+            <version>${splatgames.generators.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.splatgames</groupId>
+            <artifactId>commons-validations</artifactId>
+            <version>${splatgames.validations.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- Spring JPA -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>${spring.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- MariaDB -->
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>${mariadb.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- Spring Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>${spring.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- Spring Validation -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+            <version>${spring.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- Spring Security -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>${spring.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <version>${spring.security.test.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Spring Test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- H2 Database for testing -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- Spring Mail -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>${spring.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- District-System API -->
+        <dependency>
+            <groupId>de.district</groupId>
+            <artifactId>district-api</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- Aether Events -->
+        <dependency>
+            <groupId>de.splatgames.aether</groupId>
+            <artifactId>aether-events</artifactId>
+            <version>${splatgames.aether.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- JUnit 5 -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${test.junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- AssertJ -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${test.assertj.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Mockito -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${test.mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- MockBukkit -->
+        <dependency>
+            <groupId>com.github.seeseemelk</groupId>
+            <artifactId>MockBukkit-v1.20</artifactId>
+            <version>3.80.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,9 @@
+name: District-Roleplay-System
+version: '1.0.0'
+main: de.district.core.DistrictRoleplay
+api-version: '1.20'
+prefix: District-Roleplay
+load: STARTUP
+authors: [ Splatgames.de Software ]
+description: District Roleplay System
+website: https://software.splatgames.de/
