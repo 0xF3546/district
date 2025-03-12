@@ -1,5 +1,6 @@
 package de.district.api.entity;
 
+import de.district.api.command.PluginCommandSender;
 import de.district.api.location.LocationSearchable;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
@@ -20,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
  * @see Player
  * @since 1.0.0
  */
-public interface PluginPlayer extends PluginOfflinePlayer, LocationSearchable {
+public interface PluginPlayer extends PluginOfflinePlayer, LocationSearchable, PluginCommandSender {
 
     /**
      * Retrieves the {@link Player} instance associated with this {@code PluginPlayer}.

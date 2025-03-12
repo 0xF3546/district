@@ -4,10 +4,15 @@ import de.district.api.DistrictRoleplayAPI;
 import de.district.api.MinecraftVersion;
 import de.district.api.Server;
 import de.district.api.collectors.SystemCollector;
+import de.district.api.command.PluginCommandExecutor;
+import de.district.api.command.wrapper.PluginCommandExecutorWrapper;
+import de.district.api.entity.Console;
 import de.district.api.entity.PluginOfflinePlayer;
 import de.district.api.entity.PluginPlayer;
+import de.district.api.fail.exception.DistrictRoleplayException;
 import de.district.core.collectors.CoreSystemCollector;
 import de.district.core.config.PluginConfiguration;
+import de.district.core.entity.CoreConsole;
 import de.district.core.entity.CorePluginOfflinePlayer;
 import de.district.core.entity.CorePluginPlayer;
 import de.district.core.location.InteractionHolder;
@@ -16,7 +21,9 @@ import de.splatgames.springlify.annotation.SpringlifyApplication;
 import de.splatgames.springlify.plugin.SpringlifyBukkitPlugin;
 import lombok.Getter;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -82,6 +89,16 @@ public class DistrictRoleplay extends SpringlifyBukkitPlugin implements Server {
      * @see SystemCollector
      */
     private SystemCollector systemCollector;
+    /**
+     * The {@link Console} instance representing the server console.
+     * <p>
+     * This field is initialized during the plugin's startup and is used to interact with the server console.
+     * The console instance allows the plugin to send messages to the console and access console-related functionalities.
+     * </p>
+     *
+     * @see Console
+     */
+    private final Console console = new CoreConsole();
     /**
      * The {@link MinecraftVersion} instance representing the version of Minecraft the server is currently running.
      * <p>
@@ -299,5 +316,35 @@ public class DistrictRoleplay extends SpringlifyBukkitPlugin implements Server {
     @Override
     public @Nullable PluginOfflinePlayer getPluginOfflinePlayer(final @NotNull OfflinePlayer player) {
         return new CorePluginOfflinePlayer(player);
+    }
+
+    /**
+     * Retrieves the {@link Console} instance representing the server console.
+     *
+     * <p>This method returns the {@link Console} instance that represents the server console,
+     * allowing the plugin to interact with the console and perform console-related operations.</p>
+     *
+     * @return the {@link Console} instance representing the server console.
+     */
+    @Override
+    public Console getConsole() {
+        return this.console;
+    }
+
+    /**
+     * Registers a plugin command with the specified name and executor.
+     *
+     * @param plugin the {@link JavaPlugin} instance that owns the command.
+     * @param name the name of the command to register.
+     * @param executor the {@link PluginCommandExecutor} that handles the command execution.
+     */
+    @Override
+    public void registerPluginCommand(final @NotNull JavaPlugin plugin, final @NotNull String name, final @NotNull PluginCommandExecutor executor) {
+        PluginCommand pluginCommand = plugin.getCommand(name);
+        if (pluginCommand == null) {
+            throw new DistrictRoleplayException(String.format("Failed to register command '%s' for plugin '%s'", name, plugin.getName()));
+        }
+
+        pluginCommand.setExecutor(new PluginCommandExecutorWrapper(executor));
     }
 }
