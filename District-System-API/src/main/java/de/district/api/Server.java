@@ -3,6 +3,7 @@ package de.district.api;
 import de.district.api.collectors.SystemCollector;
 import de.district.api.command.PluginCommandExecutor;
 import de.district.api.command.PluginCommandSender;
+import de.district.api.command.PluginTabCompleter;
 import de.district.api.entity.Console;
 import de.district.api.entity.PluginOfflinePlayer;
 import de.district.api.entity.PluginPlayer;
@@ -159,4 +160,19 @@ public interface Server {
      * @param executor the {@link PluginCommandExecutor} instance to handle the command execution.
      */
     void registerPluginCommand(@NotNull JavaPlugin plugin, @NotNull final String name, @NotNull final PluginCommandExecutor executor);
+
+    /**
+     * Registers a plugin tab completer with the specified name and tab completer.
+     *
+     * <p>This method registers a plugin tab completer with the server, associating the
+     * specified command name with the provided {@link PluginTabCompleter} instance.
+     * When a player or the console uses the command, the tab completer's
+     * {@link PluginTabCompleter#onTabComplete(PluginCommandSender, Command, String, String[])}
+     * method is called to provide tab completion suggestions.</p>
+     *
+     * @param plugin       the {@link JavaPlugin} instance that owns the tab completer.
+     * @param name         the name of the command to register the tab completer for.
+     * @param tabCompleter the {@link PluginTabCompleter} instance to handle tab completion.
+     */
+    void registerPluginTabCompleter(@NotNull final JavaPlugin plugin, @NotNull final String name, @NotNull final PluginTabCompleter tabCompleter);
 }
