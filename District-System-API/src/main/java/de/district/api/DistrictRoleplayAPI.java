@@ -1,10 +1,13 @@
 package de.district.api;
 
 import de.district.api.collectors.SystemCollector;
+import de.district.api.command.PluginCommandExecutor;
+import de.district.api.entity.Console;
 import de.district.api.entity.PluginOfflinePlayer;
 import de.district.api.entity.PluginPlayer;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -160,5 +163,39 @@ public final class DistrictRoleplayAPI {
             throw new IllegalStateException("Server has not been initialized");
         }
         return server.getPluginOfflinePlayer(player);
+    }
+
+    /**
+     * Retrieves the {@link Console} instance representing the server console.
+     *
+     * <p>The {@code Console} instance provides access to the server console, allowing
+     * the plugin to interact with the console output and send messages to the console.</p>
+     *
+     * @return a non-null {@link Console} instance representing the server console.
+     * @throws IllegalStateException if the server instance has not been set.
+     */
+    public static Console getConsole() {
+        if (server == null) {
+            throw new IllegalStateException("Server has not been initialized");
+        }
+        return server.getConsole();
+    }
+
+    /**
+     * Registers a plugin command with the specified name and executor.
+     *
+     * <p>This method allows plugins to register custom commands with the server, providing
+     * a custom executor to handle command execution logic.</p>
+     *
+     * @param plugin   the {@link JavaPlugin} registering the command.
+     * @param name     the name of the command to register.
+     * @param executor the {@link PluginCommandExecutor} to handle command execution.
+     * @throws IllegalStateException if the server instance has not been set.
+     */
+    public static void registerPluginCommand(@NotNull final JavaPlugin plugin, @NotNull final String name, @NotNull final PluginCommandExecutor executor) {
+        if (server == null) {
+            throw new IllegalStateException("Server has not been initialized");
+        }
+        server.registerPluginCommand(plugin, name, executor);
     }
 }

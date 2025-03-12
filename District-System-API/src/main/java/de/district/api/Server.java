@@ -1,10 +1,15 @@
 package de.district.api;
 
 import de.district.api.collectors.SystemCollector;
+import de.district.api.command.PluginCommandExecutor;
+import de.district.api.command.PluginCommandSender;
+import de.district.api.entity.Console;
 import de.district.api.entity.PluginOfflinePlayer;
 import de.district.api.entity.PluginPlayer;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -128,4 +133,30 @@ public interface Server {
      */
     @Nullable
     PluginOfflinePlayer getPluginOfflinePlayer(@NotNull final OfflinePlayer player);
+
+    /**
+     * Retrieves the {@link Console} instance representing the server console.
+     *
+     * <p>This method provides access to the server console, allowing the plugin to interact
+     * with the console output and send messages to the server console. The console instance
+     * should be used for logging messages and other console-related activities.</p>
+     *
+     * @return the {@link Console} instance representing the server console.
+     */
+    Console getConsole();
+
+    /**
+     * Registers a plugin command with the specified name and executor.
+     *
+     * <p>This method registers a plugin command with the server, associating the
+     * specified command name with the provided {@link PluginCommandExecutor} instance.
+     * When the command is executed by a player or the console, the executor's
+     * {@link PluginCommandExecutor#onCommand(PluginCommandSender, Command, String, String[])}
+     * method is called to handle the command logic.</p>
+     *
+     * @param plugin   the {@link JavaPlugin} instance that owns the command.
+     * @param name     the name of the command to register.
+     * @param executor the {@link PluginCommandExecutor} instance to handle the command execution.
+     */
+    void registerPluginCommand(@NotNull JavaPlugin plugin, @NotNull final String name, @NotNull final PluginCommandExecutor executor);
 }
