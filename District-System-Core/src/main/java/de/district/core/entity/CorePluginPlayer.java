@@ -40,6 +40,16 @@ public class CorePluginPlayer extends CorePluginOfflinePlayer implements PluginP
     }
 
     /**
+     * Retrieves the name of the player.
+     *
+     * @return the name of the player.
+     */
+    @Override
+    public @NotNull String getName() {
+        return this.player.getName();
+    }
+
+    /**
      * Retrieves the {@link Player} associated with this instance.
      *
      * @return the associated {@code Player}.
