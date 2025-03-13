@@ -93,4 +93,7 @@ public interface PluginPlayer extends PluginOfflinePlayer, LocationSearchable, P
     default void sendMessage(@NotNull final ComponentLike message) {
         this.sendMessage(message.asComponent());
     }
+
+    boolean isAduty();
+    void setAduty(final boolean state);
 }
