@@ -1,9 +1,12 @@
 package de.district.api.inventorymanager;
 
+import de.district.api.util.ItemBuilder;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
@@ -19,11 +22,12 @@ import java.util.UUID;
  */
 public class InventoryManager {
 
-    private final Component name;
-    private final int size;
-    private final UUID uuid;
+    private Component name;
+    private int size;
+    private UUID uuid;
     public boolean canceled;
-    private final Inventory inv;
+    private Inventory inv;
+    private boolean fillRest;
 
     /**
      * This constructor is used to create a new inventory for a player.
@@ -46,6 +50,16 @@ public class InventoryManager {
 
     /**
      * This constructor is used to create a new inventory for a player.
+     * @param player The player who should get the inventory.
+     * @param size The size of the inventory.
+     * @param name The name of the inventory.
+     */
+    public InventoryManager(Player player, int size, Component name) {
+        create(player, size, name, true, true);
+    }
+
+    /**
+     * This constructor is used to create a new inventory for a player.
      *
      * @param player   The player who should get the inventory.
      * @param size     The size of the inventory.
@@ -54,13 +68,41 @@ public class InventoryManager {
      * @since 1.0.0
      */
     public InventoryManager(Player player, int size, Component name, boolean canceled) {
+        create(player, size, name, canceled, true);
+    }
+
+    /**
+     * This constructor is used to create a new inventory for a player.
+     *
+     * @param player   The player who should get the inventory.
+     * @param size     The size of the inventory.
+     * @param name     The name of the inventory.
+     * @param canceled If the inventory should be canceled.
+     * @param fillRest If the rest of the inventory should be filled with Black Stained Glass.
+     * @since 1.0.0
+     */
+    public InventoryManager(Player player, int size, Component name, boolean canceled, boolean fillRest) {
+        create(player, size, name, canceled, fillRest);
+    }
+
+    private void create(Player player, int size, Component name, boolean canceled, boolean fillRest) {
         this.size = size;
         this.name = name;
         this.uuid = player.getUniqueId();
         this.canceled = canceled;
+        this.fillRest = fillRest;
         this.inv = Bukkit.createInventory(null, size, name);
         InventoryApiRegister.getCustomInventoryCache().addInventory(player, this);
         player.openInventory(inv);
+
+        if (fillRest) {
+            for (int i = 0; i < size; i++) {
+                if (inv.getItem(i) == null) {
+                    ItemStack stack = new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).setName(" ").build();
+                    inv.setItem(i, stack);
+                }
+            }
+        }
     }
 
     /**
