@@ -1,6 +1,6 @@
 package de.district.core.admin.command;
 
-import de.district.api.DistrictRoleplayAPI;
+import de.district.api.DistrictAPI;
 import de.district.api.command.PluginCommandExecutor;
 import de.district.api.command.PluginCommandSender;
 import de.district.api.entity.PluginPlayer;
@@ -20,7 +20,7 @@ public class AdutyCommand implements PluginCommandExecutor {
             sender.sendMessage("DU hurensohn");
             return false;
         }
-        AdminService adminService = DistrictRoleplayAPI.getBean(AdminService.class);
+        AdminService adminService = DistrictAPI.getBean(AdminService.class);
         adminService.togglePlayerAduty(player);
         return false;
     }
