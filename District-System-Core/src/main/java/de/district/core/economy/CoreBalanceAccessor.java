@@ -1,6 +1,6 @@
 package de.district.core.economy;
 
-import de.district.api.DistrictRoleplayAPI;
+import de.district.api.DistrictAPI;
 import de.district.api.economy.BalanceAccessor;
 import de.district.api.economy.BalanceFailReason;
 import de.district.core.economy.service.EconomyService;
@@ -16,7 +16,7 @@ import java.util.UUID;
  * interacts with the {@link EconomyService} to perform balance-related operations, such as getting, setting,
  * adding, removing, and transferring balances.
  *
- * <p>This class is instantiated with an {@link OfflinePlayer} and uses the {@link DistrictRoleplayAPI} to retrieve
+ * <p>This class is instantiated with an {@link OfflinePlayer} and uses the {@link DistrictAPI} to retrieve
  * the necessary {@link EconomyService} bean for executing the operations.</p>
  *
  * @since 1.0.0
@@ -41,7 +41,7 @@ public class CoreBalanceAccessor implements BalanceAccessor {
      */
     @Override
     public double get() {
-        EconomyService economyService = DistrictRoleplayAPI.getBean(EconomyService.class);
+        EconomyService economyService = DistrictAPI.getBean(EconomyService.class);
         return economyService.getBalance(player.getUniqueId());
     }
 
@@ -53,7 +53,7 @@ public class CoreBalanceAccessor implements BalanceAccessor {
      */
     @Override
     public Optional<BalanceFailReason> set(final double balance) {
-        EconomyService economyService = DistrictRoleplayAPI.getBean(EconomyService.class);
+        EconomyService economyService = DistrictAPI.getBean(EconomyService.class);
         return economyService.setBalance(player.getUniqueId(), balance);
     }
 
@@ -65,7 +65,7 @@ public class CoreBalanceAccessor implements BalanceAccessor {
      */
     @Override
     public Optional<BalanceFailReason> add(final double balance) {
-        EconomyService economyService = DistrictRoleplayAPI.getBean(EconomyService.class);
+        EconomyService economyService = DistrictAPI.getBean(EconomyService.class);
         return economyService.addBalance(player.getUniqueId(), balance);
     }
 
@@ -77,7 +77,7 @@ public class CoreBalanceAccessor implements BalanceAccessor {
      */
     @Override
     public Optional<BalanceFailReason> remove(final double balance) {
-        EconomyService economyService = DistrictRoleplayAPI.getBean(EconomyService.class);
+        EconomyService economyService = DistrictAPI.getBean(EconomyService.class);
         return economyService.removeBalance(player.getUniqueId(), balance);
     }
 
@@ -90,7 +90,7 @@ public class CoreBalanceAccessor implements BalanceAccessor {
      */
     @Override
     public Optional<BalanceFailReason> transfer(final double balance, final @NotNull UUID target) {
-        EconomyService economyService = DistrictRoleplayAPI.getBean(EconomyService.class);
+        EconomyService economyService = DistrictAPI.getBean(EconomyService.class);
         return economyService.transferBalance(player.getUniqueId(), target, balance);
     }
 
@@ -101,7 +101,7 @@ public class CoreBalanceAccessor implements BalanceAccessor {
      */
     @Override
     public Optional<BalanceFailReason> reset() {
-        EconomyService economyService = DistrictRoleplayAPI.getBean(EconomyService.class);
+        EconomyService economyService = DistrictAPI.getBean(EconomyService.class);
         return economyService.resetBalance(player.getUniqueId());
     }
 
@@ -113,7 +113,7 @@ public class CoreBalanceAccessor implements BalanceAccessor {
      */
     @Override
     public boolean has(final double balance) {
-        EconomyService economyService = DistrictRoleplayAPI.getBean(EconomyService.class);
+        EconomyService economyService = DistrictAPI.getBean(EconomyService.class);
         return economyService.hasBalance(player.getUniqueId(), balance).isEmpty();
     }
 }

@@ -1,6 +1,6 @@
 package de.district.core.entity;
 
-import de.district.api.DistrictRoleplayAPI;
+import de.district.api.DistrictAPI;
 import de.district.api.economy.GameAtm;
 import de.district.api.economy.GameBank;
 import de.district.api.entity.PluginPlayer;
@@ -20,7 +20,7 @@ import java.util.Optional;
  * This class manages player-specific
  * operations such as sending messages, finding nearby banks or ATMs, and more.
  *
- * <p>This class interacts with the {@link DistrictRoleplayAPI} to handle deprecated methods
+ * <p>This class interacts with the {@link DistrictAPI} to handle deprecated methods
  * and to manage player interactions within the game.</p>
  *
  * @author Erik Pförtner
@@ -69,8 +69,8 @@ public class CorePluginPlayer extends CorePluginOfflinePlayer implements PluginP
     @Override
     public void sendMessage(final @NotNull String message) {
         String callerClassName = Thread.currentThread().getStackTrace()[1].getClassName();
-        DistrictRoleplayAPI.getLogger().warning(String.format("Deprecated method used: PluginPlayer#sendMessage(String) in %s", callerClassName));
-        DistrictRoleplayAPI.getLogger().warning("Use PluginPlayer#sendMessage(Component) instead.");
+        DistrictAPI.getLogger().warning(String.format("Deprecated method used: PluginPlayer#sendMessage(String) in %s", callerClassName));
+        DistrictAPI.getLogger().warning("Use PluginPlayer#sendMessage(Component) instead.");
         this.player.sendMessage(message);
     }
 
@@ -84,8 +84,8 @@ public class CorePluginPlayer extends CorePluginOfflinePlayer implements PluginP
     @Override
     public void sendMessage(final @NotNull String message, final boolean prefix) {
         String callerClassName = Thread.currentThread().getStackTrace()[1].getClassName();
-        DistrictRoleplayAPI.getLogger().warning(String.format("Deprecated method used: PluginPlayer#sendMessage(String, boolean) in %s", callerClassName));
-        DistrictRoleplayAPI.getLogger().warning("Use PluginPlayer#sendMessage(Component, boolean) instead.");
+        DistrictAPI.getLogger().warning(String.format("Deprecated method used: PluginPlayer#sendMessage(String, boolean) in %s", callerClassName));
+        DistrictAPI.getLogger().warning("Use PluginPlayer#sendMessage(Component, boolean) instead.");
         if (prefix) {
             this.player.sendMessage(DistrictRoleplay.PREFIX + message);
         } else {
@@ -126,7 +126,7 @@ public class CorePluginPlayer extends CorePluginOfflinePlayer implements PluginP
      */
     @Override
     public List<GameBank> findNearbyBanks(final double radius) {
-        LocationFindingService lfs = DistrictRoleplayAPI.getBean(LocationFindingService.class);
+        LocationFindingService lfs = DistrictAPI.getBean(LocationFindingService.class);
         return List.of();
     }
 
