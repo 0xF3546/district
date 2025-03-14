@@ -1,6 +1,6 @@
 package de.district.core;
 
-import de.district.api.DistrictRoleplayAPI;
+import de.district.api.DistrictAPI;
 import de.district.api.MinecraftVersion;
 import de.district.api.Server;
 import de.district.api.collectors.SystemCollector;
@@ -142,7 +142,7 @@ public class DistrictRoleplay extends SpringlifyBukkitPlugin implements Server {
      */
     @Override
     public void onEnable() {
-        DistrictRoleplayAPI.setServer(this);
+        DistrictAPI.setServer(this);
         if (minecraftVersion == MinecraftVersion.UNIT_TEST) {
             onUnitTestEnable();
             return;
