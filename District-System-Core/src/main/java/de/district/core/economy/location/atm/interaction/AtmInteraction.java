@@ -1,6 +1,6 @@
 package de.district.core.economy.location.atm.interaction;
 
-import de.district.api.DistrictRoleplayAPI;
+import de.district.api.DistrictAPI;
 import de.district.api.economy.GameBank;
 import de.district.api.entity.PluginPlayer;
 import de.district.api.inventorymanager.CustomItem;
@@ -53,7 +53,7 @@ public class AtmInteraction extends Interactable {
      */
     @Override
     public void interact(final @NotNull Player player, final @NotNull Location location) {
-        PluginPlayer pluginPlayer = DistrictRoleplayAPI.getPluginPlayer(player);
+        PluginPlayer pluginPlayer = DistrictAPI.getPluginPlayer(player);
         if (pluginPlayer == null) {
             throw new IllegalStateException(String.format("Could not find plugin player for player %s, this is not possible in normal conditions.", player.getName()));
         }
