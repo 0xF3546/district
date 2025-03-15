@@ -19,6 +19,7 @@ import de.district.core.entity.CorePluginOfflinePlayer;
 import de.district.core.entity.CorePluginPlayer;
 import de.district.core.location.InteractionHolder;
 import de.district.core.util.ConvertingUtils;
+import de.splatgames.aether.permissions.api.PermissionManager;
 import de.splatgames.springlify.annotation.SpringlifyApplication;
 import de.splatgames.springlify.plugin.SpringlifyBukkitPlugin;
 import lombok.Getter;
@@ -239,6 +240,17 @@ public class DistrictRoleplay extends SpringlifyBukkitPlugin implements Server {
     @Override
     public @NotNull MinecraftVersion getMinecraftVersion() {
         return this.minecraftVersion;
+    }
+
+    /**
+     * Returns the {@link PermissionManager} instance that provides access
+     * to the permission system.
+     *
+     * @return a non-null {@link PermissionManager} instance.
+     */
+    @Override
+    public @NotNull PermissionManager getPermissionManager() {
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 
     /**

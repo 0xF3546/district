@@ -7,6 +7,7 @@ import de.district.api.command.PluginTabCompleter;
 import de.district.api.entity.Console;
 import de.district.api.entity.PluginOfflinePlayer;
 import de.district.api.entity.PluginPlayer;
+import de.splatgames.aether.permissions.api.PermissionManager;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
@@ -88,6 +89,18 @@ public interface Server {
      */
     @NotNull
     MinecraftVersion getMinecraftVersion();
+
+    /**
+     * Retrieves the {@link PermissionManager} instance that provides access
+     * to the permission system.
+     *
+     * <p>The {@code PermissionManager} is responsible for managing permissions
+     * and groups, which can be used for managing permissions and groups.</p>
+     *
+     * @return a non-null {@link PermissionManager} instance.
+     */
+    @NotNull
+    PermissionManager getPermissionManager();
 
     /**
      * Retrieves a Spring-managed bean of the specified type from the application context.
