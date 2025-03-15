@@ -44,6 +44,15 @@ public interface Permissible {
         return DistrictAPI.getPermissionManager().hasPermission(getUniqueId(), permission);
     }
 
+    default boolean hasPermission(@NotNull final String[] permission) {
+        for (String perm : permission) {
+            if (!hasPermission(perm)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Checks whether the object has the specified permission.
      *
