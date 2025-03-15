@@ -22,6 +22,7 @@ import java.util.UUID;
  * @see PermissionManager
  * @see Permission
  * @since 1.0.0
+ * @author Erik Pförtner
  */
 public interface Permissible {
 

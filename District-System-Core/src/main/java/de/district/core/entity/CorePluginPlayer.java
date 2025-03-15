@@ -108,14 +108,24 @@ public class CorePluginPlayer extends CorePluginOfflinePlayer implements PluginP
         }
     }
 
-    @Override
-    public boolean isAduty() {
-        return aduty;
-    }
-
+    /**
+     * Sets the player's admin duty status.
+     *
+     * @param state the new admin duty status.
+     */
     @Override
     public void setAduty(final boolean state) {
         this.aduty = state;
+    }
+
+    /**
+     * Retrieves the player's admin duty status.
+     *
+     * @return {@code true} if the player is in admin duty mode, {@code false} otherwise.
+     */
+    @Override
+    public boolean isAduty() {
+        return this.aduty;
     }
 
     /**

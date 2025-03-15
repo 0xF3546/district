@@ -1,11 +1,9 @@
 package de.district.core.entity;
 
-import de.district.api.DistrictAPI;
 import de.district.api.economy.BalanceAccessor;
 import de.district.api.economy.BankType;
 import de.district.api.entity.PluginOfflinePlayer;
 import de.district.core.DistrictRoleplay;
-import de.splatgames.aether.permissions.api.PermissionManager;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -101,10 +99,5 @@ public class CorePluginOfflinePlayer implements PluginOfflinePlayer {
     @Override
     public @NotNull UUID getUniqueId() {
         return offlinePlayer.getUniqueId();
-    }
-
-    @Override
-    public @NotNull PermissionManager getPermissionManager() {
-        return DistrictAPI.getPermissionManager();
     }
 }
