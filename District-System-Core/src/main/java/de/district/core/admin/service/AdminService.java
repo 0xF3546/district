@@ -17,6 +17,10 @@ public class AdminService {
 
     }
 
+    public void sendGuideMessage(final String message, Color color) {
+
+    }
+
     public void togglePlayerAduty(final PluginPlayer player) {
         player.setAduty(!player.isAduty());
         sendMessage(player.getBukkitPlayer().getName() + " ist nun " + (player.isAduty() ? "im" : "nicht mehr im") + " Aduty.", Color.GREEN);

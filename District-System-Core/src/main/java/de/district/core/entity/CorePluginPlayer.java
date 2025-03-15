@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * The {@code CorePluginPlayer} class extends {@link CorePluginOfflinePlayer}
@@ -48,6 +49,11 @@ public class CorePluginPlayer extends CorePluginOfflinePlayer implements PluginP
     @Override
     public @NotNull String getName() {
         return this.player.getName();
+    }
+
+    @Override
+    public @NotNull UUID getUUID() {
+        return this.player.getUniqueId();
     }
 
     /**

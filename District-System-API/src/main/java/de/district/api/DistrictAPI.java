@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 /**
@@ -147,6 +148,22 @@ public final class DistrictAPI {
             throw new IllegalStateException("Server has not been initialized");
         }
         return server.getPluginPlayer(player);
+    }
+
+    @Nullable
+    public static PluginPlayer getPluginPlayer(@NotNull final String name) {
+        if (server == null) {
+            throw new IllegalStateException("Server has not been initialized");
+        }
+        return server.getPluginPlayer(name);
+    }
+
+    @Nullable
+    public static PluginPlayer getPluginPlayer(@NotNull final UUID uuid) {
+        if (server == null) {
+            throw new IllegalStateException("Server has not been initialized");
+        }
+        return server.getPluginPlayer(uuid);
     }
 
     /**

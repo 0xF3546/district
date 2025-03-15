@@ -2,10 +2,13 @@ package de.district.api.entity;
 
 import de.district.api.command.PluginCommandSender;
 import de.district.api.location.LocationSearchable;
+import de.district.api.util.Prefix;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.UUID;
 
 /**
  * The {@code PluginPlayer} interface extends both {@link PluginOfflinePlayer} and {@link LocationSearchable}
@@ -30,6 +33,9 @@ public interface PluginPlayer extends PluginOfflinePlayer, LocationSearchable, P
      */
     @NotNull
     String getName();
+
+    @NotNull
+    UUID getUUID();
 
     /**
      * Retrieves the {@link Player} instance associated with this {@code PluginPlayer}.
@@ -81,8 +87,8 @@ public interface PluginPlayer extends PluginOfflinePlayer, LocationSearchable, P
      * @param prefix  whether to include a prefix in the message.
      * @throws UnsupportedOperationException - Implemented in the core implementation. For custom implementations, this method should be overridden.
      */
-    default void sendMessage(@NotNull final Component message, final boolean prefix) {
-        throw new UnsupportedOperationException("Not implemented yet.");
+    default void sendMessage(@NotNull final Component message, final Prefix prefix) {
+        this.sendMessage(Component.text(prefix.getPrefix() + message));
     }
 
     /**

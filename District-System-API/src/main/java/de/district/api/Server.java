@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 /**
@@ -120,6 +121,12 @@ public interface Server {
      */
     @Nullable
     PluginPlayer getPluginPlayer(@NotNull final Player player);
+
+    @Nullable
+    PluginPlayer getPluginPlayer(@NotNull final String name);
+
+    @NotNull
+    PluginPlayer getPluginPlayer(@NotNull final UUID uuid);
 
     /**
      * Retrieves the {@link PluginOfflinePlayer} instance associated with the specified offline player.
