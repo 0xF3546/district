@@ -6,6 +6,7 @@ import de.district.api.command.PluginTabCompleter;
 import de.district.api.entity.Console;
 import de.district.api.entity.PluginOfflinePlayer;
 import de.district.api.entity.PluginPlayer;
+import de.splatgames.aether.permissions.api.PermissionManager;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -112,6 +113,42 @@ public final class DistrictAPI {
             throw new IllegalStateException("Server has not been initialized");
         }
         return server.getSystemCollector();
+    }
+
+    /**
+     * Retrieves the {@link MinecraftVersion} instance representing the
+     * version of Minecraft the server is running.
+     *
+     * <p>This method provides versioning information, which can be useful
+     * for ensuring compatibility with specific Minecraft features or APIs.</p>
+     *
+     * @return a non-null {@link MinecraftVersion} instance.
+     * @throws IllegalStateException if the server instance has not been set.
+     */
+    @NotNull
+    public static MinecraftVersion getMinecraftVersion() {
+        if (server == null) {
+            throw new IllegalStateException("Server has not been initialized");
+        }
+        return server.getMinecraftVersion();
+    }
+
+    /**
+     * Retrieves the {@link PermissionManager} instance that provides access
+     * to the permission system.
+     *
+     * <p>The {@code PermissionManager} is responsible for managing permissions
+     * and groups, which can be used for managing permissions and groups.</p>
+     *
+     * @return a non-null {@link PermissionManager} instance.
+     * @throws IllegalStateException if the server instance has not been set.
+     */
+    @NotNull
+    public static PermissionManager getPermissionManager() {
+        if (server == null) {
+            throw new IllegalStateException("Server has not been initialized");
+        }
+        return server.getPermissionManager();
     }
 
     /**
