@@ -118,12 +118,12 @@
 
     <repositories>
         <repository>
-            <id>splatgames.de-mixed</id>
-            <url>https://nexus.splatgames.de/repository/maven-mixed/</url>
+            <id>splatgames.de</id>
+            <url>https://nexus.splatgames.de/repository/maven-public/</url>
         </repository>
         <repository>
-            <id>splatgames.de</id>
-            <url>https://libraries.splatgames.de/</url>
+            <id>splatgames.de-mixed</id>
+            <url>https://nexus.splatgames.de/repository/maven-mixed/</url>
         </repository>
         <repository>
             <id>papermc-repo</id>

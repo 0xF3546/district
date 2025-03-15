@@ -53,6 +53,10 @@
 
     <repositories>
         <repository>
+            <id>splatgames.de</id>
+            <url>https://nexus.splatgames.de/repository/maven-public/</url>
+        </repository>
+        <repository>
             <id>papermc-repo</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
@@ -85,6 +89,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>6.1.9</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>de.splatgames.aether</groupId>
+            <artifactId>aether-permissions-api</artifactId>
+            <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
