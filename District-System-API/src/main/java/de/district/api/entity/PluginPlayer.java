@@ -47,7 +47,7 @@ public interface PluginPlayer extends PluginOfflinePlayer, LocationSearchable, P
      * @deprecated Use {@link #sendMessage(Component)} or {@link #sendMessage(ComponentLike)} instead.
      */
     @Deprecated
-    void sendMessage(final @NotNull String message);
+    void sendMessage(@NotNull final String message);
 
     /**
      * Sends a message to the player, with an optional prefix.
@@ -60,7 +60,7 @@ public interface PluginPlayer extends PluginOfflinePlayer, LocationSearchable, P
      * @deprecated This method is not implemented and will throw an exception.
      */
     @Deprecated
-    default void sendMessage(final @NotNull String message, final boolean prefix) {
+    default void sendMessage(@NotNull final String message, final boolean prefix) {
         throw new UnsupportedOperationException("Not implemented yet.");
     }
 
@@ -94,6 +94,17 @@ public interface PluginPlayer extends PluginOfflinePlayer, LocationSearchable, P
         this.sendMessage(message.asComponent());
     }
 
+    /**
+     * Retrieves whether the player is currently on duty.
+     *
+     * @return {@code true} if the player is on duty, {@code false} otherwise.
+     */
     boolean isAduty();
+    
+    /**
+     * Sets whether the player is on duty.
+     *
+     * @param state {@code true} if the player is on duty, {@code false} otherwise.
+     */
     void setAduty(final boolean state);
 }
