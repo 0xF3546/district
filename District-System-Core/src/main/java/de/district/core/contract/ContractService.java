@@ -82,7 +82,7 @@ public class ContractService {
      */
     public void handleAccept(@NotNull final Player player) {
         final PlayerContract contract = getContract(player);
-        if (contract != null) {
+        if (contract != null && contract.getTarget() == player) {
             contract.getAcceptCallback().execute();
             removeContract(contract);
         }
@@ -95,7 +95,7 @@ public class ContractService {
      */
     public void handleDecline(@NotNull final Player player) {
         final PlayerContract contract = getContract(player);
-        if (contract != null) {
+        if (contract != null && contract.getTarget() == player) {
             contract.getDeclineCallback().execute();
             removeContract(contract);
         }
