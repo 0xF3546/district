@@ -6,6 +6,9 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.time.LocalDateTime;
 
 /**
  * The {@code PluginPlayer} interface extends both {@link PluginOfflinePlayer} and {@link LocationSearchable}
@@ -100,11 +103,33 @@ public interface PluginPlayer extends PluginOfflinePlayer, LocationSearchable, P
      * @return {@code true} if the player is on duty, {@code false} otherwise.
      */
     boolean isAduty();
-    
+
     /**
      * Sets whether the player is on duty.
      *
      * @param state {@code true} if the player is on duty, {@code false} otherwise.
      */
     void setAduty(final boolean state);
+
+    /**
+     * Retrieves the player's current character.
+     *
+     * @return the player's current character, or {@code null} if the player does not have a character.
+     */
+    @Nullable
+    PlayerCharacter getCharacter();
+
+    /**
+     * Creates a new character associated with the player. This character contains the player's
+     * personal details, such as first name, last name, gender, and date of birth.
+     *
+     * @param firstName   the first name of the character, never {@code null}.
+     * @param lastName    the last name of the character, never {@code null}.
+     * @param gender      the gender of the character, represented as a single character (e.g., 'M', 'F').
+     * @param dateOfBirth the birth date of the character, never {@code null}.
+     */
+    void createCharacter(@NotNull final String firstName,
+                         @NotNull final String lastName,
+                         final char gender,
+                         @NotNull final LocalDateTime dateOfBirth);
 }

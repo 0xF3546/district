@@ -188,4 +188,16 @@ public interface Server {
      * @param tabCompleter the {@link PluginTabCompleter} instance to handle tab completion.
      */
     void registerPluginTabCompleter(@NotNull final JavaPlugin plugin, @NotNull final String name, @NotNull final PluginTabCompleter tabCompleter);
+
+    /**
+     * Retrieves the default bank provider for the server.
+     *
+     * <p>This method returns the default bank provider for the server, which is used
+     * as the primary provider for bank accounts and transactions. The default bank
+     * provider is typically configured in the server's settings or configuration file.</p>
+     *
+     * @return the default bank provider for the server.
+     */
+    @NotNull
+    String getDefaultBankProvider();
 }

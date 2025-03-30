@@ -47,4 +47,24 @@ public interface LocationSearchable {
      * @return an {@link Optional} containing the nearest {@link GameAtm}, or empty if none are found.
      */
     Optional<GameAtm> findNearestAtm();
+
+    /**
+     * Checks if the player is near a specified location within a certain radius.
+     *
+     * @param x      the x-coordinate of the location.
+     * @param y      the y-coordinate of the location.
+     * @param z      the z-coordinate of the location.
+     * @param radius the radius within which to search for the player.
+     * @return {@code true} if the player is near the location, {@code false} otherwise.
+     */
+    boolean isNearByLocation(double x, double y, double z, double radius);
+
+    /**
+     * Checks if the player is near a specified location within a certain radius.
+     *
+     * @param location the location to check.
+     * @param radius   the radius within which to search for the player.
+     * @return {@code true} if the player is near the location, {@code false} otherwise.
+     */
+    boolean isNearByLocation(Location location, double radius);
 }

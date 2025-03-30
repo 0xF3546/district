@@ -44,6 +44,12 @@ public interface Permissible {
         return DistrictAPI.getPermissionManager().hasPermission(getUniqueId(), permission);
     }
 
+    /**
+     * Checks whether the object has all of the specified permissions.
+     *
+     * @param permission the permissions to check for, never {@code null}.
+     * @return {@code true} if the object has all of the permissions, {@code false} otherwise.
+     */
     default boolean hasPermission(@NotNull final String[] permission) {
         for (String perm : permission) {
             if (!hasPermission(perm)) {
