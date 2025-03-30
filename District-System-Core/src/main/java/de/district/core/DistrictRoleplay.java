@@ -316,6 +316,16 @@ public class DistrictRoleplay extends SpringlifyBukkitPlugin implements Server {
         return new CorePluginPlayer(player);
     }
 
+    @Override
+    public @Nullable PluginPlayer getPluginPlayer(final @NotNull UUID uuid) {
+        return null;
+    }
+
+    @Override
+    public @Nullable PluginPlayer getPluginPlayer(final @NotNull String name) {
+        return null;
+    }
+
     /**
      * Retrieves the {@link PluginOfflinePlayer} instance associated with the specified offline player.
      *
