@@ -73,7 +73,7 @@ public class CorePluginOfflinePlayer implements PluginOfflinePlayer {
      */
     @Override
     public @Nullable String getBankProvider() {
-        return "";
+        return (balanceAccessor == null) ? null : balanceAccessor.getBankProvider();
     }
 
     /**

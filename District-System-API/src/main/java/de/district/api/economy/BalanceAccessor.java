@@ -74,4 +74,12 @@ public interface BalanceAccessor {
      * {@code false} otherwise.
      */
     boolean has(final double balance);
+
+    /**
+     * Retrieves the bank provider associated with the player.
+     *
+     * @return the bank provider associated with the player.
+     */
+    @NotNull
+    String getBankProvider();
 }

@@ -254,10 +254,35 @@ public final class DistrictAPI {
         server.registerPluginCommand(plugin, name, executor);
     }
 
+    /**
+     * Registers a plugin tab completer with the specified name and tab completer.
+     *
+     * <p>This method allows plugins to register custom tab completers with the server, providing
+     * a custom tab completer to handle tab completion logic.</p>
+     *
+     * @param plugin      the {@link JavaPlugin} registering the tab completer.
+     * @param name        the name of the tab completer to register.
+     * @param tabCompleter the {@link PluginTabCompleter} to handle tab completion.
+     * @throws IllegalStateException if the server instance has not been set.
+     */
     public static void registerPluginTabCompleter(@NotNull final JavaPlugin plugin, @NotNull final String name, @NotNull final PluginTabCompleter tabCompleter) {
         if (server == null) {
             throw new IllegalStateException("Server has not been initialized");
         }
         server.registerPluginTabCompleter(plugin, name, tabCompleter);
+    }
+
+    /**
+     * Retrieves the default bank provider.
+     *
+     * @return the default bank provider.
+     * @throws IllegalStateException if the server instance has not been set.
+     */
+    @NotNull
+    public static String getDefaultBankProvider() {
+        if (server == null) {
+            throw new IllegalStateException("Server has not been initialized");
+        }
+        return server.getDefaultBankProvider();
     }
 }

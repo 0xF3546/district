@@ -67,4 +67,12 @@ public interface Location {
      */
     @NotNull
     LocationType getType();
+
+    /**
+     * Converts this location to a Bukkit location.
+     *
+     * @return the Bukkit location representation of this location.
+     */
+    @NotNull
+    org.bukkit.Location toBukkitLocation();
 }

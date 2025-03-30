@@ -3,13 +3,19 @@ package de.district.core.entity;
 import de.district.api.DistrictAPI;
 import de.district.api.economy.GameAtm;
 import de.district.api.economy.GameBank;
+import de.district.api.entity.PlayerCharacter;
 import de.district.api.entity.PluginPlayer;
 import de.district.core.DistrictRoleplay;
+import de.district.core.character.service.CharacterService;
+import de.district.core.character.util.Gender;
 import de.district.core.location.service.LocationFindingService;
 import net.kyori.adventure.text.Component;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -115,13 +121,44 @@ public class CorePluginPlayer extends CorePluginOfflinePlayer implements PluginP
     }
 
     /**
-     * Sets the player's admin duty status.
+     * Retrieves the player's character entity.
      *
-     * @param state the new admin duty status.
+     * @return the player's character entity, or {@code null} if the character is not found.
      */
     @Override
-    public void setAduty(final boolean state) {
-        this.aduty = state;
+    public @Nullable PlayerCharacter getCharacter() {
+        final CharacterService characterService = DistrictAPI.getBean(CharacterService.class);
+        return characterService.findCharacterByPlayer(this);
+    }
+
+    /**
+     * Creates a new character associated with the player. This character contains the player's
+     * personal details, such as first name, last name, gender, and date of birth.
+     *
+     * @param firstName   the first name of the character, never {@code null}.
+     * @param lastName    the last name of the character, never {@code null}.
+     * @param genderCode  the gender of the character, represented as a single character (e.g., 'M', 'F').
+     * @param dateOfBirth the birth date of the character, never {@code null}.
+     */
+    @Override
+    public void createCharacter(@NotNull final String firstName,
+                                @NotNull final String lastName,
+                                final char genderCode,
+                                @NotNull final LocalDateTime dateOfBirth) {
+        final CharacterService characterService = DistrictAPI.getBean(CharacterService.class);
+        final Gender gender = Gender.fromChar(genderCode);
+
+        if (gender == null) {
+            throw new IllegalArgumentException("Char Code should be 'M' or 'F'");
+        }
+
+        characterService.createCharacter(
+                this,
+                firstName,
+                lastName,
+                gender,
+                dateOfBirth
+        );
     }
 
     /**
@@ -132,6 +169,16 @@ public class CorePluginPlayer extends CorePluginOfflinePlayer implements PluginP
     @Override
     public boolean isAduty() {
         return this.aduty;
+    }
+
+    /**
+     * Sets the player's admin duty status.
+     *
+     * @param state the new admin duty status.
+     */
+    @Override
+    public void setAduty(final boolean state) {
+        this.aduty = state;
     }
 
     /**
@@ -175,5 +222,31 @@ public class CorePluginPlayer extends CorePluginOfflinePlayer implements PluginP
     @Override
     public Optional<GameAtm> findNearestAtm() {
         return Optional.empty();
+    }
+
+    /**
+     * Checks if the player is near a specified location within a certain radius.
+     *
+     * @param x      the x-coordinate of the location.
+     * @param y      the y-coordinate of the location.
+     * @param z      the z-coordinate of the location.
+     * @param radius the radius within which to search for the player.
+     * @return {@code true} if the player is near the location, {@code false} otherwise.
+     */
+    @Override
+    public boolean isNearByLocation(final double x, final double y, final double z, final double radius) {
+        return this.player.getLocation().distance(new Location(this.player.getWorld(), x, y, z)) <= radius;
+    }
+
+    /**
+     * Checks if the player is near a specified location within a certain radius.
+     *
+     * @param location the location to check.
+     * @param radius   the radius within which to search for the player.
+     * @return {@code true} if the player is near the location, {@code false} otherwise.
+     */
+    @Override
+    public boolean isNearByLocation(final de.district.api.location.Location location, final double radius) {
+        return this.player.getLocation().distance(location.toBukkitLocation()) <= radius;
     }
 }
