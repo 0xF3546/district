@@ -7,3 +7,13 @@ load: STARTUP
 authors: [ Splatgames.de Software ]
 description: District Roleplay System
 website: https://software.splatgames.de/
+
+commands:
+  invite:
+  giverank:
+  setrankname:
+  setranksalary:
+  leadfaction:
+  setfaction:
+  factionchat:
+    aliases: f
