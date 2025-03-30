@@ -7,3 +7,19 @@ load: STARTUP
 authors: [ Splatgames.de Software ]
 description: District Roleplay System
 website: https://software.splatgames.de/
+
+commands:
+  kick:
+  aduty:
+    aliases: ad
+  acceptticket:
+  cancelticket:
+  closeticket:
+  ticketcommand:
+  tickets:
+  adminchat:
+    aliases: ac
+  teamchat:
+    aliases: tc
+  broadcast:
+    aliases: bc
