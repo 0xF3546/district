@@ -1,12 +1,15 @@
 package de.district.core.faction.domain;
 
 import de.splatgames.generators.annotation.dto.Dto;
+import it.unimi.dsi.fastutil.objects.ObjectList;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.bukkit.Color;
+
+import java.util.List;
 
 /**
  * @author Mayson1337
@@ -72,4 +75,8 @@ public class Faction {
     @Dto(order = 12)
     @Column(name = "isPermittedForBlacklist")
     private boolean isPermittedForBlacklist;
+
+    @Dto(order = 13)
+    @OneToMany(mappedBy = "faction", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<FactionRank> ranks;
 }
