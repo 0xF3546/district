@@ -3,6 +3,7 @@ package de.district.core.economy;
 import de.district.api.DistrictAPI;
 import de.district.api.economy.BalanceAccessor;
 import de.district.api.economy.BalanceFailReason;
+import de.district.core.economy.config.BankConfiguration;
 import de.district.core.economy.service.EconomyService;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
@@ -115,5 +116,15 @@ public class CoreBalanceAccessor implements BalanceAccessor {
     public boolean has(final double balance) {
         EconomyService economyService = DistrictAPI.getBean(EconomyService.class);
         return economyService.hasBalance(player.getUniqueId(), balance).isEmpty();
+    }
+
+    /**
+     * Retrieves the bank provider associated with the player.
+     *
+     * @return the bank provider.
+     */
+    @Override
+    public @NotNull String getBankProvider() {
+        return DistrictAPI.getBean(BankConfiguration.class).getName();
     }
 }

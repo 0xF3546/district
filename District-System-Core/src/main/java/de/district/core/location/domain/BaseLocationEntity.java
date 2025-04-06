@@ -21,7 +21,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.bukkit.Bukkit;
 import org.hibernate.proxy.HibernateProxy;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -196,5 +198,11 @@ public abstract class BaseLocationEntity implements Location {
     @Override
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
+    }
+
+    @Override
+    @NotNull
+    public org.bukkit.Location toBukkitLocation() {
+        return new org.bukkit.Location(Bukkit.getWorld(this.world), this.x, this.y, this.z);
     }
 }

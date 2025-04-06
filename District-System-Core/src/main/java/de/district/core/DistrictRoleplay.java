@@ -14,6 +14,7 @@ import de.district.api.entity.PluginPlayer;
 import de.district.api.fail.exception.DistrictRoleplayException;
 import de.district.core.collectors.CoreSystemCollector;
 import de.district.core.config.PluginConfiguration;
+import de.district.core.economy.config.BankConfiguration;
 import de.district.core.entity.CoreConsole;
 import de.district.core.entity.CorePluginOfflinePlayer;
 import de.district.core.entity.CorePluginPlayer;
@@ -113,7 +114,22 @@ public class DistrictRoleplay extends SpringlifyBukkitPlugin implements Server {
      * @see MinecraftVersion
      */
     private MinecraftVersion minecraftVersion;
+    /**
+     * The map used to store libraries for the plugin.
+     * <p>
+     * This field is used to store libraries that are used by the plugin to provide additional functionality.
+     * The libraries are stored in a map with the library name as the key and the library object as the value.
+     * </p>
+     */
     private Map<String, Object> libraries = new ConcurrentHashMap<>();
+    /**
+     * The default bank provider for the plugin.
+     * <p>
+     * This field is used to store the default bank provider for the plugin. The bank provider is used to manage
+     * bank accounts and transactions for players. The default bank provider is typically set in the plugin's configuration.
+     * </p>
+     */
+    private String defaultBankProvider;
 
     /**
      * Constructs a new {@code DistrictRoleplay} instance. If the plugin is running
@@ -122,7 +138,7 @@ public class DistrictRoleplay extends SpringlifyBukkitPlugin implements Server {
      */
     public DistrictRoleplay() {
         if (getClassLoader().getClass().getPackageName().startsWith("be.seeseemelk.mockbukkit")) {
-            minecraftVersion = MinecraftVersion.UNIT_TEST;
+            this.minecraftVersion = MinecraftVersion.UNIT_TEST;
         }
     }
 
@@ -144,19 +160,26 @@ public class DistrictRoleplay extends SpringlifyBukkitPlugin implements Server {
     @Override
     public void onEnable() {
         DistrictAPI.setServer(this);
-        if (minecraftVersion == MinecraftVersion.UNIT_TEST) {
+        if (this.minecraftVersion == MinecraftVersion.UNIT_TEST) {
             onUnitTestEnable();
             return;
         }
         getLogger().info("District-Roleplay Systems is starting up...");
         super.onEnable();
         PluginConfiguration pluginConfiguration = getBean(PluginConfiguration.class);
-        systemCollector = new CoreSystemCollector().update();
+        this.systemCollector = new CoreSystemCollector().update();
         if (pluginConfiguration != null) {
             getLogger().info("Debug mode is " + (pluginConfiguration.isDebug() ? "enabled" : "disabled"));
             logSystemInformation();
         }
-        interactionHolder = new InteractionHolder(new ArrayList<>());
+        BankConfiguration bankConfiguration = getBean(BankConfiguration.class);
+        if (bankConfiguration != null) {
+            this.defaultBankProvider = bankConfiguration.getName();
+        } else {
+            getLogger().warning("Failed to load bank configuration. Default bank provider will be set to 'Bank of District'.");
+            this.defaultBankProvider = "Bank of District";
+        }
+        DistrictRoleplay.interactionHolder = new InteractionHolder(new ArrayList<>());
         getLogger().info("District-Roleplay Systems has been started successfully.");
     }
 
@@ -166,8 +189,8 @@ public class DistrictRoleplay extends SpringlifyBukkitPlugin implements Server {
      */
     private void onUnitTestEnable() {
         getLogger().info("District-Roleplay Systems is starting up in UNIT_TEST mode...");
-        systemCollector = new CoreSystemCollector().update();
-        interactionHolder = new InteractionHolder(new ArrayList<>());
+        this.systemCollector = new CoreSystemCollector().update();
+        DistrictRoleplay.interactionHolder = new InteractionHolder(new ArrayList<>());
         getLogger().info("District-Roleplay Systems has been started successfully in UNIT_TEST mode.");
     }
 
@@ -178,14 +201,14 @@ public class DistrictRoleplay extends SpringlifyBukkitPlugin implements Server {
      */
     @Override
     public void onDisable() {
-        if (minecraftVersion == MinecraftVersion.UNIT_TEST) {
+        if (this.minecraftVersion == MinecraftVersion.UNIT_TEST) {
             onUnitTestDisable();
             return;
         }
 
         getLogger().info("District-Roleplay Systems is shutting down...");
         super.onDisable();
-        interactionHolder.clearInteractions();
+        DistrictRoleplay.interactionHolder.clearInteractions();
         getLogger().info("District-Roleplay Systems has been shut down successfully.");
     }
 
@@ -195,7 +218,7 @@ public class DistrictRoleplay extends SpringlifyBukkitPlugin implements Server {
      */
     private void onUnitTestDisable() {
         getLogger().info("District-Roleplay Systems is shutting down in UNIT_TEST mode...");
-        interactionHolder.clearInteractions();
+        DistrictRoleplay.interactionHolder.clearInteractions();
         getLogger().info("District-Roleplay Systems has been shut down successfully in UNIT_TEST mode.");
     }
 
@@ -261,25 +284,25 @@ public class DistrictRoleplay extends SpringlifyBukkitPlugin implements Server {
      */
     protected void logSystemInformation() {
         getLogger().log(Level.INFO, "Plugin started on {0} version {1}", new Object[]{
-                systemCollector.getOperatingSystem().split(" ")[0],
-                systemCollector.getOperatingSystem().split(" ")[1]});
+                this.systemCollector.getOperatingSystem().split(" ")[0],
+                this.systemCollector.getOperatingSystem().split(" ")[1]});
         getLogger().log(Level.INFO, " ");
-        getLogger().log(Level.INFO, "Jvm name: {0}", systemCollector.getJvmName());
-        getLogger().log(Level.INFO, "Jvm version: {0}", systemCollector.getJvmVersion());
-        getLogger().log(Level.INFO, "Jvm vendor: {0}", systemCollector.getJvmVendor());
-        getLogger().log(Level.INFO, "Jvm uptime: {0}", ConvertingUtils.convertMillisecondsToHumanReadable(systemCollector.getJvmUptime()));
+        getLogger().log(Level.INFO, "Jvm name: {0}", this.systemCollector.getJvmName());
+        getLogger().log(Level.INFO, "Jvm version: {0}", this.systemCollector.getJvmVersion());
+        getLogger().log(Level.INFO, "Jvm vendor: {0}", this.systemCollector.getJvmVendor());
+        getLogger().log(Level.INFO, "Jvm uptime: {0}", ConvertingUtils.convertMillisecondsToHumanReadable(this.systemCollector.getJvmUptime()));
         getLogger().log(Level.INFO, " ");
         getLogger().log(Level.INFO, "Non heap memory (used/max): {0}/{1}", new Object[]{
-                ConvertingUtils.convertBytesToHumanReadable(systemCollector.getNonHeapMemoryUsed()),
-                ConvertingUtils.convertBytesToHumanReadable(systemCollector.getNonHeapMemoryMax())});
+                ConvertingUtils.convertBytesToHumanReadable(this.systemCollector.getNonHeapMemoryUsed()),
+                ConvertingUtils.convertBytesToHumanReadable(this.systemCollector.getNonHeapMemoryMax())});
         getLogger().log(Level.INFO, "Heap memory (used/max): {0}/{1}", new Object[]{
-                ConvertingUtils.convertBytesToHumanReadable(systemCollector.getHeapMemoryUsed()),
-                ConvertingUtils.convertBytesToHumanReadable(systemCollector.getHeapMemoryMax())});
+                ConvertingUtils.convertBytesToHumanReadable(this.systemCollector.getHeapMemoryUsed()),
+                ConvertingUtils.convertBytesToHumanReadable(this.systemCollector.getHeapMemoryMax())});
         getLogger().log(Level.INFO, " ");
-        getLogger().log(Level.INFO, "System load average: {0}", systemCollector.getSystemLoadAverage());
-        getLogger().log(Level.INFO, "Available processors: {0}", systemCollector.getAvailableProcessors());
+        getLogger().log(Level.INFO, "System load average: {0}", this.systemCollector.getSystemLoadAverage());
+        getLogger().log(Level.INFO, "Available processors: {0}", this.systemCollector.getAvailableProcessors());
         getLogger().log(Level.INFO, " ");
-        getLogger().log(Level.INFO, "Minecraft version: {0}", minecraftVersion.getName());
+        getLogger().log(Level.INFO, "Minecraft version: {0}", this.minecraftVersion.getName());
     }
 
     /**
@@ -387,5 +410,15 @@ public class DistrictRoleplay extends SpringlifyBukkitPlugin implements Server {
         }
 
         pluginCommand.setTabCompleter(new PluginTabCompleterWrapper(tabCompleter));
+    }
+
+    /**
+     * Retrieves the default bank provider for the plugin.
+     *
+     * @return the default bank provider for the plugin.
+     */
+    @Override
+    public @NotNull String getDefaultBankProvider() {
+        return this.defaultBankProvider;
     }
 }
