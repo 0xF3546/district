@@ -4,6 +4,8 @@ import de.district.api.entity.PlayerCharacter;
 import de.district.core.character.domain.dto.CharacterDto;
 import de.district.core.character.util.Gender;
 import de.district.core.character.util.LocalDateTimeAttributeConverter;
+import de.district.core.faction.domain.Faction;
+import de.district.core.faction.domain.FactionRank;
 import de.district.core.user.domain.User;
 import de.splatgames.generators.annotation.dto.Dto;
 import de.splatgames.validations.valids.api.Validations;
@@ -131,6 +133,20 @@ public class Character implements PlayerCharacter {
     @Column(name = "created_at", nullable = false)
     @Convert(converter = LocalDateTimeAttributeConverter.class)
     private LocalDateTime createdAt;
+
+    @Dto(order = 7)
+    @OneToOne
+    @JoinColumn(name = "faction_id", referencedColumnName = "id", nullable = true)
+    private Faction factionId;
+
+    @Dto(order = 8)
+    @OneToOne
+    @JoinColumn(name = "factionRank_id", referencedColumnName = "id", nullable = true)
+    private FactionRank factionRank;
+
+    @Dto(order = 9)
+    @Column(name = "isLeader")
+    private boolean isLeader;
 
     /**
      * Constructs a new {@code Character} instance from the provided {@link CharacterDto}.

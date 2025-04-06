@@ -58,4 +58,13 @@ public interface PlayerCharacter {
      */
     @NotNull
     LocalDateTime getCreatedAt();
+
+    @NotNull
+    Long getFactionId();
+
+    @NotNull
+    int getFactionRank();
+
+    @NotNull
+    boolean isLeader();
 }
